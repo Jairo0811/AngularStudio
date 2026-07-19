@@ -1,0 +1,220 @@
+<section class="explorer">
+  <header class="explorer__header">
+    <div>
+      <span class="eyebrow">PokéAPI</span>
+      <h2>Pokédex avanzada</h2>
+      <p>Formas, datos de especie, sprites, combate, evoluciones, movimientos, juegos y encuentros.</p>
+    </div>
+  </header>
+
+  <section class="form-filter" aria-label="Pokédex por región">
+    <div class="form-filter__header">
+      <div>
+        <span>Pokédex regional</span>
+        <small>{{ totalPokemon() }} resultados disponibles</small>
+      </div>
+    </div>
+
+    <div class="form-filter__options">
+      @for (region of regionFilters; track region.id) {
+        <button
+          type="button"
+          class="form-filter__button"
+          [class.form-filter__button--active]="
+            selectedRegion() === region.id && selectedCategory() === 'default'
+          "
+          (click)="changeRegion(region.id)"
+        >
+          {{ region.label }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="form-filter" aria-label="Filtros de formas y variantes Pokémon">
+    <div class="form-filter__header">
+      <div>
+        <span>Formas y variantes</span>
+        <small>Formas regionales y transformaciones especiales</small>
+      </div>
+    </div>
+
+    <div class="form-filter__options">
+      @for (filter of formFilters; track filter.id) {
+        <button
+          type="button"
+          class="form-filter__button"
+          [class.form-filter__button--active]="
+            selectedCategory() === filter.id && selectedRegion() === 'all'
+          "
+          (click)="changeCategory(filter.id)"
+        >
+          {{ filter.label }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="advanced-search" aria-label="Búsqueda avanzada">
+    <label>
+      <span>Nombre o número</span>
+      <input type="search" placeholder="Pikachu o 25" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" />
+    </label>
+    <label>
+      <span>Tipo</span>
+      <select [ngModel]="typeFilter()" (ngModelChange)="typeFilter.set($event)">
+        @for (type of pokemonTypes; track type) { <option [value]="type">{{ type === 'all' ? 'Todos los tipos' : formatName(type) }}</option> }
+      </select>
+    </label>
+    <label class="advanced-search__check">
+      <input type="checkbox" [ngModel]="favoritesOnly()" (ngModelChange)="favoritesOnly.set($event)" />
+      <span>Solo favoritos</span>
+    </label>
+    <button type="button" class="secondary-button" (click)="clearAdvancedFilters()">Limpiar filtros</button>
+  </section>
+
+  <section class="collection-panel">
+    <div><strong>Favoritos</strong><span>{{ collection.favorites().length }}</span></div>
+    <div><strong>Equipo</strong><span>{{ collection.team().length }}/6</span></div>
+    <div><strong>Comparador</strong><span>{{ comparisonSelection().length }}/2</span></div>
+    <button type="button" class="primary-button" [disabled]="comparisonSelection().length !== 2 || comparisonLoading()" (click)="compareSelected()">
+      {{ comparisonLoading() ? 'Comparando…' : 'Comparar seleccionados' }}
+    </button>
+  </section>
+
+  @if (collectionMessage()) { <div class="state state--error">{{ collectionMessage() }}</div> }
+
+  @if (collection.team().length) {
+    <section class="team-panel">
+      <header><div><span class="eyebrow">Equipo Pokémon</span><h3>Tu equipo de seis</h3></div></header>
+      <div class="team-panel__grid">
+        @for (member of collection.team(); track member.name) {
+          <button type="button" (click)="openPokemon(member.name)"><img [src]="member.imageUrl" [alt]="member.displayName" /><span>{{ member.displayName }}</span></button>
+        }
+      </div>
+    </section>
+  }
+
+  @if (comparisonDetails().length === 2) {
+    <section class="comparison-panel">
+      <header><span class="eyebrow">Comparador</span><h3>{{ formatName(comparisonDetails()[0].pokemon.name) }} vs {{ formatName(comparisonDetails()[1].pokemon.name) }}</h3></header>
+      <div class="comparison-panel__grid">
+        @for (entry of comparisonDetails(); track entry.pokemon.name) {
+          <article>
+            <img [src]="entry.sprites[0]?.url" [alt]="formatName(entry.pokemon.name)" />
+            <h4>{{ formatName(entry.pokemon.name) }}</h4>
+            <p>#{{ entry.pokemon.id.toString().padStart(4, '0') }}</p>
+            <div class="type-list">@for (type of entry.pokemon.types; track type.type.name) { <small [attr.data-type]="type.type.name">{{ formatName(type.type.name) }}</small> }</div>
+            <dl>
+              <div><dt>Altura</dt><dd>{{ formatHeightImperial(entry.pokemon.height) }}</dd></div>
+              <div><dt>Peso</dt><dd>{{ formatWeightImperial(entry.pokemon.weight) }}</dd></div>
+              @for (stat of entry.pokemon.stats; track stat.stat.name) { <div><dt>{{ formatName(stat.stat.name) }}</dt><dd>{{ stat.base_stat }}</dd></div> }
+            </dl>
+          </article>
+        }
+      </div>
+    </section>
+  }
+
+
+  @if (errorMessage()) { <div class="state state--error">{{ errorMessage() }}</div> }
+
+  @if (detail(); as data) {
+    <article class="pokemon-detail">
+      <button type="button" class="pokemon-detail__close" aria-label="Cerrar detalle" (click)="closeDetail()">×</button>
+      <header class="pokemon-profile">
+        <div class="pokemon-profile__visual">
+          <div class="pokemon-profile__identity"><span>#{{ data.pokemon.id.toString().padStart(4, '0') }}</span><small>{{ selectedFormLabel() }}</small></div>
+          @if (selectedSpriteUrl()) { <img [src]="selectedSpriteUrl()" [alt]="data.pokemon.name" /> }
+          <h3>{{ formatName(data.pokemon.name) }}</h3>
+          <p>{{ genus() }}</p>
+          <div class="type-list">@for (type of data.pokemon.types; track type.type.name) { <span [attr.data-type]="type.type.name">{{ formatName(type.type.name) }}</span> }</div>
+          <button type="button" class="cry-button" [disabled]="!data.pokemon.cries?.latest" (click)="playCry(data.pokemon.cries?.latest)">▶ Reproducir grito</button>
+        </div>
+
+        <div class="pokemon-profile__summary">
+          <p class="description">{{ speciesDescription() }}</p>
+          <div class="metric-grid metric-grid--wide">
+            <div><span>Altura</span><strong>{{ formatHeightImperial(data.pokemon.height) }}</strong></div>
+            <div><span>Peso</span><strong>{{ formatWeightImperial(data.pokemon.weight) }}</strong></div>
+            <div><span>Generación</span><strong>{{ formatName(data.species.generation.name) }}</strong></div>
+            <div><span>Región</span><strong>{{ originRegion() }}</strong></div>
+            <div><span>Color</span><strong>{{ formatName(data.species.color.name) }}</strong></div>
+            <div><span>Género</span><strong>{{ genderLabel() }}</strong></div>
+            <div><span>Captura</span><strong>{{ data.species.capture_rate }}</strong></div>
+          </div>
+        </div>
+      </header>
+
+      <nav class="detail-tabs" aria-label="Secciones de la Pokédex">
+        @for (tab of detailTabs; track tab.id) { <button type="button" [class.active]="selectedTab() === tab.id" (click)="selectedTab.set(tab.id)">{{ tab.label }}</button> }
+      </nav>
+
+      @switch (selectedTab()) {
+        @case ('overview') {
+          <section class="detail-panel detail-grid">
+            <div class="panel-card"><h4>Sprites y apariencias</h4><div class="sprite-selector">@for (sprite of data.sprites; track sprite.id) { <button type="button" [class.active]="selectedSpriteUrl() === sprite.url" (click)="selectSprite(sprite.url)"><img [src]="sprite.url" [alt]="sprite.label" /><span>{{ sprite.label }}</span></button> }</div></div>
+            <div class="panel-card"><h4>Datos biológicos</h4><dl class="data-list"><div><dt>Hábitat</dt><dd>{{ data.species.habitat ? formatName(data.species.habitat.name) : 'N/D' }}</dd></div><div><dt>Forma corporal</dt><dd>{{ formatName(data.species.shape.name) }}</dd></div><div><dt>Crecimiento</dt><dd>{{ formatName(data.species.growth_rate.name) }}</dd></div><div><dt>Felicidad base</dt><dd>{{ data.species.base_happiness }}</dd></div><div><dt>Grupos huevo</dt><dd>{{ getEggGroups() }}</dd></div><div><dt>Clasificación</dt><dd>{{ data.species.is_mythical ? 'Mítico' : data.species.is_legendary ? 'Legendario' : data.species.is_baby ? 'Bebé' : 'Estándar' }}</dd></div></dl></div>
+            <div class="panel-card panel-card--wide"><h4>Formas disponibles</h4><div class="varieties__grid">@for (variety of data.varieties; track variety.id) { <button type="button" class="variety-card" [class.variety-card--active]="variety.name === data.pokemon.name" (click)="openPokemon(variety.name)">@if (variety.imageUrl) { <img [src]="variety.imageUrl" [alt]="variety.displayName" /> }<span>{{ variety.displayName }}</span><small>{{ variety.formLabel }}</small></button> }</div></div>
+          </section>
+        }
+        @case ('battle') {
+          <section class="detail-panel detail-grid">
+            <div class="panel-card"><h4>Estadísticas base</h4><div class="stats">@for (stat of data.pokemon.stats; track stat.stat.name) { <div class="stat-row"><div><span>{{ formatName(stat.stat.name) }}</span><strong>{{ stat.base_stat }}</strong></div><progress [value]="getStatPercentage(stat.base_stat)" max="100"></progress></div> }</div></div>
+            <div class="panel-card"><h4>Efectividad de tipos</h4><div class="effect-group"><h5>Debilidades</h5><div class="type-list">@for (item of data.effectiveness.weaknesses; track item.type) { <span [attr.data-type]="item.type">{{ formatName(item.type) }} ×{{ item.multiplier }}</span> }</div></div><div class="effect-group"><h5>Resistencias</h5><div class="type-list">@for (item of data.effectiveness.resistances; track item.type) { <span [attr.data-type]="item.type">{{ formatName(item.type) }} ×{{ item.multiplier }}</span> }</div></div><div class="effect-group"><h5>Inmunidades</h5><div class="type-list">@for (item of data.effectiveness.immunities; track item.type) { <span [attr.data-type]="item.type">{{ formatName(item.type) }} ×0</span> }</div></div></div>
+            <div class="panel-card panel-card--wide"><h4>Habilidades</h4><div class="ability-detail-grid">@for (ability of data.abilities; track ability.name) { <article><div><strong>{{ ability.displayName }}</strong>@if (ability.isHidden) { <small>Oculta</small> }</div><p>{{ ability.description }}</p></article> }</div></div>
+          </section>
+        }
+        @case ('evolution') {
+          <section class="detail-panel"><div class="panel-card"><h4>Cadena evolutiva</h4>@if (data.evolution; as root) { <ng-container [ngTemplateOutlet]="evolutionNode" [ngTemplateOutletContext]="{ $implicit: root }" /> } @else { <p class="muted">No hay cadena evolutiva registrada.</p> }</div></section>
+          <ng-template #evolutionNode let-node><div class="evolution-node"><button type="button" (click)="openPokemon(node.name)"><img [src]="node.imageUrl" [alt]="node.displayName" /><strong>{{ node.displayName }}</strong></button>@if (node.conditions.length) { <div class="evolution-conditions">@for (condition of node.conditions; track condition) { <span>{{ condition }}</span> }</div> }@if (node.children.length) { <div class="evolution-children">@for (child of node.children; track child.name) { <ng-container [ngTemplateOutlet]="evolutionNode" [ngTemplateOutletContext]="{ $implicit: child }" /> }</div> }</div></ng-template>
+        }
+        @case ('moves') {
+          <section class="detail-panel"><div class="panel-card"><div class="section-toolbar"><h4>Movimientos</h4><input type="search" placeholder="Buscar movimiento o método..." [ngModel]="moveSearch()" (ngModelChange)="moveSearch.set($event)" /></div><div class="moves-table"><div class="moves-table__head"><span>Movimiento</span><span>Método</span><span>Nivel</span></div>@for (move of moves(); track move.name) { <div class="moves-table__row"><strong>{{ move.displayName }}</strong><span>{{ move.method }}</span><span>{{ move.level || '—' }}</span></div> }</div></div></section>
+        }
+        @case ('games') {
+          <section class="detail-panel detail-grid detail-grid--games"><div class="panel-card panel-card--games"><div class="section-heading"><div><h4>Juegos registrados</h4><p>Ediciones en las que esta especie tiene un registro dentro de PokéAPI.</p></div><span>{{ games().length }} juegos</span></div><div class="game-cover-grid">@for (game of games(); track game.name) { <article class="game-cover-card">
+  <div
+    class="game-cover-card__visual"
+    [attr.data-fallback]="game.displayName.charAt(0)"
+  >
+    @if (game.coverUrl) {
+      <img
+        [src]="game.coverUrl"
+        [alt]="'Carátula de Pokémon ' + game.displayName"
+        loading="lazy"
+        (error)="onGameCoverError($event)"
+      />
+    }
+  </div>
+
+  <div class="game-cover-card__content">
+    <strong>Pokémon {{ game.displayName }}</strong>
+  </div>
+</article> }</div></div><div class="panel-card panel-card--encounters"><h4>Encuentros</h4>@if (data.encounters.length) { <div class="encounter-list">@for (encounter of data.encounters; track encounter.location) { <article><strong>{{ encounter.location }}</strong><span>{{ encounter.versions.join(', ') }}</span><small>Probabilidad máxima: {{ encounter.chance }}%</small></article> }</div> } @else { <p class="muted">No hay encuentros salvajes registrados para esta forma.</p> }</div></section>
+        }
+      }
+    </article>
+  }
+
+  @if (loading() && pokemon().length === 0) { <div class="state">Cargando Pokémon…</div> }
+  @else if (!loading() && pokemon().length === 0) { <div class="state">No se encontraron formas dentro de esta categoría.</div> }
+  @else {
+    <div class="pokemon-grid">
+      @for (item of visiblePokemon(); track item.name) {
+        <article class="pokemon-card" (click)="openPokemon(item.name)" tabindex="0" (keydown.enter)="openPokemon(item.name)">
+          <div class="pokemon-card__header"><span>#{{ item.id.toString().padStart(4, '0') }}</span>@if (!item.isDefault) { <small>{{ item.formLabel }}</small> }</div>
+          <div class="pokemon-card__actions">
+            <button type="button" [attr.aria-label]="collection.isFavorite(item.name) ? 'Quitar de favoritos' : 'Agregar a favoritos'" (click)="toggleFavorite(item, $event)">{{ collection.isFavorite(item.name) ? '★' : '☆' }}</button>
+            <button type="button" [class.is-active]="collection.isInTeam(item.name)" aria-label="Agregar o quitar del equipo" (click)="toggleTeam(item, $event)">⚔</button>
+            <button type="button" [class.is-active]="comparisonSelection().includes(item)" aria-label="Seleccionar para comparar" (click)="toggleComparison(item, $event)">⇄</button>
+          </div>
+          @if (item.imageUrl) { <img [src]="item.imageUrl" [alt]="item.displayName" /> }
+          <strong>{{ item.displayName }}</strong>
+          <div class="type-list">@for (type of item.types; track type) { <small [attr.data-type]="type">{{ formatName(type) }}</small> }</div>
+        </article>
+      } @empty { <div class="state">No hay Pokémon que coincidan con los filtros actuales.</div> }
+    </div>
+    <footer class="pagination"><button type="button" (click)="previousPage()" [disabled]="currentPage() === 1 || loading()">Anterior</button><span>Página {{ currentPage() }} de {{ totalPages() }}</span><button type="button" (click)="nextPage()" [disabled]="currentPage() === totalPages() || loading()">Siguiente</button></footer>
+  }
+</section>

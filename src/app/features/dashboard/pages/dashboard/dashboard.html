@@ -1,0 +1,11 @@
+<section class="dashboard">
+  <header class="dashboard-hero"><div><span class="dashboard-hero__eyebrow">Angular Studio 2.0</span><h1>Bienvenido, {{ displayName }}.</h1><p>Tu centro de experimentación, APIs y herramientas de desarrollo.</p></div><div class="dashboard-hero__status"><span></span> Firebase conectado</div></header>
+  <section class="summary-grid">
+    <article class="summary-card"><span>Favoritos</span><strong>{{ favoritesCount() }}</strong><small>Pokémon guardados</small></article>
+    <article class="summary-card"><span>Equipo</span><strong>{{ teamCount() }}/6</strong><small>Integrantes seleccionados</small></article>
+    <article class="summary-card"><span>CRUD Lab</span><strong>{{ crudCount() }}</strong><small>Registros locales</small></article>
+    <article class="summary-card"><span>Framework</span><strong>Angular 21</strong><small>Standalone + Signals</small></article>
+  </section>
+  <section class="quick-actions"><a routerLink="/api/pokemon">Abrir Pokédex</a><a routerLink="/herramientas">Usar Developer Tools</a><a routerLink="/crud-lab">Gestionar registros</a></section>
+  <section class="modules-section"><header class="section-header"><div><span>Espacio de trabajo</span><h2>Módulos disponibles</h2></div><p>Una plataforma modular para demostrar desarrollo frontend profesional con Angular.</p></header><div class="modules-grid">@for(module of modules;track module.title){<a class="module-card" [routerLink]="module.route"><div class="module-card__header"><span class="module-card__icon">{{ module.icon }}</span><span class="module-card__status module-card__status--completed">{{ module.status }}</span></div><h3>{{ module.title }}</h3><p>{{ module.description }}</p><span class="module-card__action">Abrir módulo →</span></a>}</div></section>
+</section>

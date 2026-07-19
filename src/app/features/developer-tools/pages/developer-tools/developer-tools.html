@@ -1,0 +1,41 @@
+<section class="tools-page">
+  <header class="page-hero">
+    <div><span>Developer Hub</span><h1>Herramientas para desarrolladores</h1><p>Utilidades locales, rápidas y sin enviar tus datos a servidores externos.</p></div>
+  </header>
+
+  <div class="tool-tabs" role="tablist" aria-label="Herramientas disponibles">
+    @for (tool of tools; track tool.id) {
+      <button type="button" [class.active]="activeTool() === tool.id" (click)="activeTool.set(tool.id)">
+        <strong>{{ tool.icon }}</strong>{{ tool.label }}
+      </button>
+    }
+  </div>
+
+  <article class="tool-panel">
+    <h2>{{ activeTitle() }}</h2>
+    @if (activeTool() === 'json') {
+      <div class="two-columns">
+        <label>Entrada<textarea [(ngModel)]="jsonInput" rows="14"></textarea></label>
+        <label>Resultado<textarea [ngModel]="jsonOutput" rows="14" readonly></textarea></label>
+      </div>
+      <div class="actions"><button (click)="formatJson()">Formatear</button><button class="secondary" (click)="minifyJson()">Minificar</button><button class="ghost" (click)="copy(jsonOutput)">Copiar</button></div>
+    }
+    @if (activeTool() === 'base64') {
+      <div class="two-columns">
+        <label>Entrada<textarea [(ngModel)]="base64Input" rows="12"></textarea></label>
+        <label>Resultado<textarea [ngModel]="base64Output" rows="12" readonly></textarea></label>
+      </div>
+      <div class="actions"><button (click)="encodeBase64()">Codificar</button><button class="secondary" (click)="decodeBase64()">Decodificar</button><button class="ghost" (click)="copy(base64Output)">Copiar</button></div>
+    }
+    @if (activeTool() === 'uuid') {
+      <div class="single-output"><code>{{ uuidOutput }}</code></div>
+      <div class="actions"><button (click)="generateUuid()">Generar nuevo</button><button class="ghost" (click)="copy(uuidOutput)">Copiar</button></div>
+    }
+    @if (activeTool() === 'password') {
+      <div class="options"><label>Longitud<input type="number" min="8" max="64" [(ngModel)]="passwordLength"></label><label class="checkbox"><input type="checkbox" [(ngModel)]="includeSymbols"> Incluir símbolos</label></div>
+      <div class="single-output"><code>{{ passwordOutput || 'Genera una contraseña segura' }}</code></div>
+      <div class="actions"><button (click)="generatePassword()">Generar contraseña</button><button class="ghost" (click)="copy(passwordOutput)">Copiar</button></div>
+    }
+    @if (message()) { <p class="message" aria-live="polite">{{ message() }}</p> }
+  </article>
+</section>

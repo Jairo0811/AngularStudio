@@ -1,0 +1,13 @@
+<section class="profile-page">
+  <article class="profile-card">
+    <div class="avatar">{{ initials() }}</div>
+    <div><span>Cuenta de Angular Studio</span><h1>{{ user()?.displayName || 'Usuario' }}</h1><p>{{ user()?.email }}</p></div>
+    <a routerLink="/configuracion">Configurar cuenta</a>
+  </article>
+  <section class="stats">
+    <article><strong>{{ favoritesCount() }}</strong><span>Pokémon favoritos</span></article>
+    <article><strong>{{ teamCount() }}/6</strong><span>Equipo Pokémon</span></article>
+    <article><strong>{{ user()?.emailVerified ? 'Sí' : 'No' }}</strong><span>Correo verificado</span></article>
+  </section>
+  <article class="details"><h2>Información de la cuenta</h2><dl><div><dt>Nombre</dt><dd>{{ user()?.displayName || 'No configurado' }}</dd></div><div><dt>Correo</dt><dd>{{ user()?.email }}</dd></div><div><dt>Identificador</dt><dd>{{ user()?.uid }}</dd></div></dl></article>
+</section>

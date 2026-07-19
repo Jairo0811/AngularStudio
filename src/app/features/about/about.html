@@ -1,0 +1,237 @@
+<main class="about-page">
+  <section class="hero" aria-labelledby="about-title">
+    <div class="hero__glow hero__glow--primary" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--secondary" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <div class="hero__badges" aria-label="Características principales">
+        <span class="badge">Academic Edition</span>
+        <span class="badge badge--secondary">Angular 21</span>
+      </div>
+      <p class="eyebrow">Development Workspace</p>
+      <h1 id="about-title">Angular Studio</h1>
+      <p class="hero__version">Versión 2.0</p>
+      <p class="hero__description">
+        Aplicación nacida durante el Diplomado en Programación Web con Angular y evolucionada
+        hasta convertirse en un laboratorio moderno de desarrollo, aprendizaje y demostración
+        de buenas prácticas de ingeniería de software.
+      </p>
+    </div>
+
+    <div class="hero__brand" aria-label="Identidad de Angular Studio">
+      <span class="hero__brand-mark" aria-hidden="true">AS</span>
+      <div>
+        <strong>Angular Studio</strong>
+        <span>Professional portfolio project</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--split" aria-labelledby="academic-title">
+    <div class="section-heading">
+      <p class="eyebrow">Identidad académica</p>
+      <h2 id="academic-title">Información del proyecto</h2>
+      <p>Datos del participante y del programa formativo que dio origen a Angular Studio.</p>
+    </div>
+
+    <div class="academic-panel">
+      @for (detail of academicDetails; track detail.label) {
+        <article class="academic-row">
+          <p class="academic-row__label">{{ detail.label }}</p>
+          <div class="academic-row__content">
+            <p class="academic-row__value">{{ detail.value }}</p>
+            @if (detail.description) {
+              <p class="academic-row__description">{{ detail.description }}</p>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="section certificate-section" aria-labelledby="certificate-title">
+    <div class="section-heading section-heading--center">
+      <p class="eyebrow">Acreditación académica</p>
+      <h2 id="certificate-title">Certificado del diplomado</h2>
+      <p>
+        Evidencia de finalización del Diplomado en Programación Web con Angular,
+        correspondiente al período académico 2020-T2 y cursado entre mayo y septiembre de 2020.
+      </p>
+    </div>
+
+    <article class="certificate-card">
+      <a
+        class="certificate-card__preview"
+        [href]="certificateVerificationUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Validar el certificado del diplomado en el portal del ITLA"
+      >
+        <img
+          src="/assets/images/certificates/angular-mescyt-2020.webp"
+          alt="Certificado del Diplomado en Programación Web con Angular otorgado a Francis Jairo Matías Rosario"
+          class="certificate-card__image"
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="certificate-card__overlay" aria-hidden="true">Ver certificado</span>
+      </a>
+
+      <div class="certificate-card__content">
+        <p class="certificate-card__label">Diplomado completado</p>
+        <h3>Programación Web con Angular — MESCyT</h3>
+        <dl class="certificate-details">
+          <div><dt>Titular</dt><dd>Francis Jairo Matías Rosario</dd></div>
+          <div><dt>Período académico</dt><dd>2020-T2</dd></div>
+          <div><dt>Duración</dt><dd>Mayo 2020 – Septiembre 2020</dd></div>
+          <div><dt>Fecha de expedición</dt><dd>8 de septiembre de 2020</dd></div>
+          <div><dt>Institución emisora</dt><dd>Instituto Tecnológico de Las Américas (ITLA)</dd></div>
+        </dl>
+
+        <a
+          class="certificate-card__button"
+          [href]="certificateVerificationUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Validar certificado en ITLA
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </article>
+  </section>
+
+  <section class="section institutions" aria-labelledby="institutions-title">
+    <div class="section-heading section-heading--center">
+      <p class="eyebrow">Respaldo institucional</p>
+      <h2 id="institutions-title">Entidades vinculadas a la formación</h2>
+      <p>Instituciones e iniciativas asociadas al origen académico del proyecto.</p>
+    </div>
+
+    <div class="institutions-grid">
+      @for (institution of institutions; track institution.acronym) {
+        <article class="institution-card">
+          <div class="institution-card__logo-wrap">
+            <img
+              [src]="institution.image"
+              [alt]="'Logo de ' + institution.name"
+              class="institution-card__logo"
+              [class]="'institution-card__logo ' + institution.imageClass"
+            />
+          </div>
+          <div class="institution-card__body">
+            <p class="institution-card__acronym">{{ institution.acronym }}</p>
+            <h3>{{ institution.name }}</h3>
+            <p>{{ institution.description }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="timeline-title">
+    <div class="section-heading section-heading--center">
+      <p class="eyebrow">Origen y evolución</p>
+      <h2 id="timeline-title">Del programa formativo al portafolio</h2>
+    </div>
+
+    <ol class="timeline">
+      @for (step of timeline; track step.title; let index = $index) {
+        <li class="timeline__item">
+          <span class="timeline__number">{{ (index + 1).toString().padStart(2, '0') }}</span>
+          <div>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.description }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <section class="section section--split" aria-labelledby="specifications-title">
+    <div class="section-heading">
+      <p class="eyebrow">Ficha técnica</p>
+      <h2 id="specifications-title">Especificaciones del proyecto</h2>
+      <p>Resumen técnico de la versión actual de Angular Studio.</p>
+    </div>
+
+    <dl class="specifications-panel">
+      @for (specification of specifications; track specification.label) {
+        <div class="specification-row">
+          <dt>{{ specification.label }}</dt>
+          <dd>{{ specification.value }}</dd>
+        </div>
+      }
+    </dl>
+  </section>
+
+  <section class="section" aria-labelledby="technologies-title">
+    <div class="section-heading">
+      <p class="eyebrow">Stack tecnológico</p>
+      <h2 id="technologies-title">Tecnologías utilizadas</h2>
+      <p>Herramientas aplicadas durante el desarrollo, integración y optimización.</p>
+    </div>
+    <div class="technology-list" aria-label="Tecnologías del proyecto">
+      @for (technology of technologies; track technology) {
+        <span class="technology-chip">{{ technology }}</span>
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="architecture-title">
+    <div class="section-heading">
+      <p class="eyebrow">Ingeniería</p>
+      <h2 id="architecture-title">Arquitectura y buenas prácticas</h2>
+      <p>Decisiones estructurales orientadas a mantener el proyecto modular y escalable.</p>
+    </div>
+    <div class="architecture-grid">
+      @for (principle of architecturePrinciples; track principle) {
+        <article class="architecture-item"><span aria-hidden="true">✓</span>{{ principle }}</article>
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="features-title">
+    <div class="section-heading">
+      <p class="eyebrow">Alcance funcional</p>
+      <h2 id="features-title">Módulos principales</h2>
+      <p>Componentes que conforman la experiencia actual de Angular Studio 2.0.</p>
+    </div>
+    <div class="features-grid">
+      @for (feature of projectFeatures; track feature.title) {
+        <article class="feature-card">
+          <span class="feature-card__indicator" aria-hidden="true"></span>
+          <div><h3>{{ feature.title }}</h3><p>{{ feature.description }}</p></div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="developer-card" aria-labelledby="developer-title">
+    <div>
+      <p class="eyebrow">Desarrollado por</p>
+      <h2 id="developer-title">Francis Jairo Matías Rosario</h2>
+      <p class="developer-card__role">Tecnólogo en Desarrollo de Software</p>
+      <p class="developer-card__role">Estudiante de Ingeniería de Software</p>
+    </div>
+    <div class="developer-card__education"><span>ITLA</span><span aria-hidden="true">•</span><span>UNAPEC</span></div>
+  </section>
+
+  <section class="project-note" aria-labelledby="project-note-title">
+    <p class="eyebrow">Evolución del proyecto</p>
+    <h2 id="project-note-title">De proyecto académico a aplicación de portafolio</h2>
+    <p>
+      Angular Studio comenzó durante el período académico 2020-T2 del Diplomado en Programación Web con Angular – MESCyT, impartido por
+      el ITLA dentro del programa BecaSoft y vinculado al respaldo del MESCyT y la iniciativa
+      República Digital. Posteriormente fue ampliado con autenticación, consumo de APIs, Pokédex
+      avanzada, gestión CRUD, herramientas para desarrolladores, preferencias de usuario y
+      automatización de recursos.
+    </p>
+  </section>
+
+  <footer class="about-footer">
+    <p><strong>Angular Studio v2.0</strong></p>
+    <p>Academic Edition · {{ currentYear }}</p>
+    <p>Proyecto evolucionado como aplicación de portafolio profesional.</p>
+  </footer>
+</main>

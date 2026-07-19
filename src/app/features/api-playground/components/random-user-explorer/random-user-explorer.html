@@ -1,0 +1,79 @@
+<section class="explorer">
+  <header class="explorer__header">
+    <div>
+      <span class="eyebrow">Random User API</span>
+      <h2>Directorio de usuarios</h2>
+      <p>Explora perfiles generados y filtra por nombre, correo, ciudad o país.</p>
+    </div>
+
+    <button type="button" class="primary-button" (click)="reloadUsers()" [disabled]="loading()">
+      {{ loading() ? 'Cargando…' : 'Generar nuevos usuarios' }}
+    </button>
+  </header>
+
+  <div class="toolbar">
+    <label>
+      <span>Buscar</span>
+      <input
+        type="search"
+        placeholder="Nombre, correo, ciudad..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="updateSearch($event)"
+      />
+    </label>
+
+    <label>
+      <span>País</span>
+      <select [ngModel]="selectedCountry()" (ngModelChange)="updateCountry($event)">
+        <option value="">Todos los países</option>
+        @for (country of countries(); track country) {
+          <option [value]="country">{{ country }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="state state--error">
+      <strong>Error</strong>
+      <span>{{ errorMessage() }}</span>
+      <button type="button" (click)="loadUsers()">Reintentar</button>
+    </div>
+  } @else if (loading() && users().length === 0) {
+    <div class="state">Cargando perfiles…</div>
+  } @else if (filteredUsers().length === 0) {
+    <div class="state">No hay usuarios que coincidan con los filtros.</div>
+  } @else {
+    <div class="user-grid">
+      @for (user of filteredUsers(); track user.login.uuid) {
+        <article class="user-card">
+          <img
+            [src]="user.picture.large"
+            [alt]="'Fotografía de ' + user.name.first + ' ' + user.name.last"
+          />
+
+          <div class="user-card__body">
+            <span class="user-card__country">{{ user.location.country }}</span>
+            <h3>{{ user.name.first }} {{ user.name.last }}</h3>
+            <p>{{ user.email }}</p>
+
+            <dl>
+              <div>
+                <dt>Ciudad</dt>
+                <dd>{{ user.location.city }}</dd>
+              </div>
+              <div>
+                <dt>Edad</dt>
+                <dd>{{ user.dob.age }} años</dd>
+              </div>
+              <div>
+                <dt>Teléfono</dt>
+                <dd>{{ user.phone }}</dd>
+              </div>
+            </dl>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

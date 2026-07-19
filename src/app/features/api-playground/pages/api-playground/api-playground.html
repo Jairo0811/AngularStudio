@@ -1,0 +1,37 @@
+<section class="api-playground-page">
+  <header class="page-hero">
+    <div>
+      <span class="page-hero__eyebrow">Angular Studio</span>
+      <h1>API Playground</h1>
+      <p>
+        Laboratorio modular para explorar integraciones HTTP, estados reactivos,
+        filtros y visualización de datos externos.
+      </p>
+    </div>
+
+    <div class="page-hero__badge">
+      <strong>3</strong>
+      <span>APIs integradas</span>
+    </div>
+  </header>
+
+  <app-api-tabs
+    [tabs]="tabs"
+    [activeTab]="activeTab()"
+    (tabChange)="selectTab($event)"
+  />
+
+  <main class="api-content" role="tabpanel">
+    @switch (activeTab()) {
+      @case ('random-users') {
+        <app-random-user-explorer />
+      }
+      @case ('pokemon') {
+        <app-pokemon-explorer />
+      }
+      @case ('flags') {
+        <app-flags-gallery />
+      }
+    }
+  </main>
+</section>

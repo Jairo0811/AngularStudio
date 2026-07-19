@@ -1,0 +1,16 @@
+ANGULAR STUDIO — ACERCA DE ACTUALIZADO
+
+Copia las carpetas src y public en la raíz del proyecto y acepta reemplazar los archivos existentes.
+
+Archivos incluidos:
+- src/app/features/about/pages/about/about.ts
+- src/app/features/about/pages/about/about.html
+- src/app/features/about/pages/about/about.scss
+- public/assets/images/institutions/itla.png
+- public/assets/images/institutions/mescyt.png
+
+Luego ejecuta:
+  npm start
+
+Ruta:
+  http://localhost:4200/acerca-de

@@ -1,0 +1,77 @@
+<header class="navbar">
+  <a
+    class="navbar__brand"
+    routerLink="/dashboard"
+    aria-label="Ir al dashboard"
+    (click)="closeMobileMenu()"
+  >
+    <img
+      src="/images/angular-studio-logo.png"
+      alt="Logo de Angular Studio"
+    />
+
+    <div class="navbar__brand-text">
+      <strong>Angular Studio</strong>
+      <span>Development Workspace</span>
+    </div>
+  </a>
+
+  <button
+    class="navbar__menu-button"
+    type="button"
+    aria-label="Abrir menú de usuario"
+    aria-controls="navbar-user-menu"
+    [attr.aria-expanded]="isMobileMenuOpen()"
+    (click)="toggleMobileMenu()"
+  >
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </button>
+
+  <div
+    id="navbar-user-menu"
+    class="navbar__actions"
+    [class.navbar__actions--open]="isMobileMenuOpen()"
+  >
+    @if (errorMessage()) {
+      <p class="navbar__error" role="alert">
+        {{ errorMessage() }}
+      </p>
+    }
+
+    <div class="user-summary">
+      @if (user()?.photoUrl) {
+        <img
+          class="user-summary__avatar"
+          [src]="user()?.photoUrl"
+          alt="Foto del usuario"
+          referrerpolicy="no-referrer"
+        />
+      } @else {
+        <span class="user-summary__initials" aria-hidden="true">
+          {{ userInitials }}
+        </span>
+      }
+
+      <div class="user-summary__information">
+        <strong>
+          {{ user()?.displayName || 'Usuario de Angular Studio' }}
+        </strong>
+
+        <span>
+          {{ user()?.email }}
+        </span>
+      </div>
+    </div>
+
+    <button
+      class="logout-button"
+      type="button"
+      (click)="logout()"
+      [disabled]="isLoggingOut()"
+    >
+      {{ isLoggingOut() ? 'Saliendo...' : 'Cerrar sesión' }}
+    </button>
+  </div>
+</header>

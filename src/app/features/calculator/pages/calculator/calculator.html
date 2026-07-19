@@ -1,0 +1,205 @@
+<section class="calculator-page">
+  <header class="page-header">
+    <div>
+      <span class="page-header__eyebrow">
+        Módulo modernizado
+      </span>
+
+      <h1>Calculadora Angular</h1>
+
+      <p>
+        Evolución de la calculadora desarrollada durante el diplomado,
+        reconstruida con Reactive Forms, Signals y validaciones.
+      </p>
+    </div>
+
+    <span class="page-header__status">
+      Disponible
+    </span>
+  </header>
+
+  <div class="calculator-layout">
+    <section class="calculator-card">
+      <header class="calculator-card__header">
+        <div class="calculator-card__icon">
+          ∑
+        </div>
+
+        <div>
+          <h2>Operación matemática</h2>
+          <p>Introduce dos valores y selecciona una operación.</p>
+        </div>
+      </header>
+
+      <form
+        class="calculator-form"
+        [formGroup]="calculatorForm"
+        novalidate
+      >
+        @if (errorMessage()) {
+          <div
+            class="calculator-alert"
+            role="alert"
+          >
+            <span aria-hidden="true">!</span>
+            <p>{{ errorMessage() }}</p>
+          </div>
+        }
+
+        <div class="operands-grid">
+          <div class="form-field">
+            <label for="firstOperand">
+              Primer operando
+            </label>
+
+            <input
+              id="firstOperand"
+              type="number"
+              step="any"
+              formControlName="firstOperand"
+              placeholder="0"
+            />
+
+            @if (
+              calculatorForm.controls.firstOperand.invalid &&
+              calculatorForm.controls.firstOperand.touched
+            ) {
+              <small>
+                Introduce un número válido.
+              </small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label for="secondOperand">
+              Segundo operando
+            </label>
+
+            <input
+              id="secondOperand"
+              type="number"
+              step="any"
+              formControlName="secondOperand"
+              placeholder="0"
+            />
+
+            @if (
+              calculatorForm.controls.secondOperand.invalid &&
+              calculatorForm.controls.secondOperand.touched
+            ) {
+              <small>
+                Introduce un número válido.
+              </small>
+            }
+          </div>
+        </div>
+
+        <div class="operations-grid">
+          <button
+            type="button"
+            (click)="calculate('add')"
+            aria-label="Sumar"
+          >
+            <span>+</span>
+            Sumar
+          </button>
+
+          <button
+            type="button"
+            (click)="calculate('subtract')"
+            aria-label="Restar"
+          >
+            <span>−</span>
+            Restar
+          </button>
+
+          <button
+            type="button"
+            (click)="calculate('multiply')"
+            aria-label="Multiplicar"
+          >
+            <span>×</span>
+            Multiplicar
+          </button>
+
+          <button
+            type="button"
+            (click)="calculate('divide')"
+            aria-label="Dividir"
+          >
+            <span>÷</span>
+            Dividir
+          </button>
+        </div>
+
+        <section class="result-panel">
+          <span>Resultado</span>
+
+          <strong>
+            @if (hasResult()) {
+              {{ result() | number: '1.0-8' }}
+            } @else {
+              —
+            }
+          </strong>
+        </section>
+
+        <button
+          class="clear-button"
+          type="button"
+          (click)="clearCalculator()"
+        >
+          Limpiar calculadora
+        </button>
+      </form>
+    </section>
+
+    <aside class="history-card">
+      <header class="history-card__header">
+        <div>
+          <span>Actividad reciente</span>
+          <h2>Historial</h2>
+        </div>
+
+        @if (history().length > 0) {
+          <button
+            type="button"
+            (click)="clearHistory()"
+          >
+            Limpiar
+          </button>
+        }
+      </header>
+
+      @if (history().length > 0) {
+        <div class="history-list">
+          @for (item of history(); track item.id) {
+            <article class="history-item">
+              <div>
+                <span>{{ item.expression }}</span>
+
+                <small>
+                  {{ item.createdAt.toLocaleTimeString() }}
+                </small>
+              </div>
+
+              <strong>
+                {{ item.result | number: '1.0-8' }}
+              </strong>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-history">
+          <span aria-hidden="true">∑</span>
+
+          <h3>Sin operaciones todavía</h3>
+
+          <p>
+            Las últimas diez operaciones aparecerán aquí.
+          </p>
+        </div>
+      }
+    </aside>
+  </div>
+</section>

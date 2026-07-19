@@ -1,0 +1,77 @@
+<section class="explorer">
+  <header class="explorer__header">
+    <div>
+      <span class="eyebrow">REST Countries</span>
+      <h2>Flags Gallery</h2>
+      <p>Consulta banderas, capitales, regiones y códigos internacionales.</p>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <label>
+      <span>Buscar país</span>
+      <input
+        type="search"
+        placeholder="Nombre, capital o código ISO..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="updateSearch($event)"
+      />
+    </label>
+
+    <label>
+      <span>Región</span>
+      <select [ngModel]="selectedRegion()" (ngModelChange)="updateRegion($event)">
+        <option value="">Todas las regiones</option>
+        @for (region of regions(); track region) {
+          <option [value]="region">{{ region }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="state state--error">
+      {{ errorMessage() }}
+      <button type="button" (click)="loadCountries()">Reintentar</button>
+    </div>
+  } @else if (loading()) {
+    <div class="state">Cargando países…</div>
+  } @else if (filteredCountries().length === 0) {
+    <div class="state">No hay países que coincidan con los filtros.</div>
+  } @else {
+    <div class="flag-grid">
+      @for (country of filteredCountries(); track country.cca3) {
+        <article class="flag-card">
+          <div class="flag-card__image">
+            <img
+              [src]="country.flags.svg || country.flags.png"
+              [alt]="country.flags.alt || 'Bandera de ' + country.name.common"
+            />
+          </div>
+
+          <div class="flag-card__body">
+            <div>
+              <h3>{{ country.name.common }}</h3>
+              <span>{{ country.cca2 }} · {{ country.cca3 }}</span>
+            </div>
+
+            <dl>
+              <div>
+                <dt>Capital</dt>
+                <dd>{{ country.capital.join(', ') || 'N/D' }}</dd>
+              </div>
+              <div>
+                <dt>Región</dt>
+                <dd>{{ country.region || 'N/D' }}</dd>
+              </div>
+              <div>
+                <dt>Población</dt>
+                <dd>{{ formatPopulation(country.population) }}</dd>
+              </div>
+            </dl>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

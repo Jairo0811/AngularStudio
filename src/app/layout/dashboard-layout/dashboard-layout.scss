@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+
+.app-shell__body {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 260px minmax(0, 1fr);
+}
+
+.app-shell__content {
+  min-width: 0;
+  padding: 2rem;
+}
+
+@media (max-width: 900px) {
+  .app-shell__body {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell__content {
+    padding: 1.25rem;
+  }
+}

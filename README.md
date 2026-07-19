@@ -57,3 +57,25 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Angular Studio 2.0
+
+La versión 2.0 incorpora:
+
+- Pokédex avanzada con comparador, favoritos, filtros y equipos.
+- CRUD Lab con persistencia local.
+- Developer Tools: JSON Formatter, Base64, UUID y generador de contraseñas.
+- Perfil de usuario y configuración de tema.
+- Conversión automática de carátulas JPG/PNG a WebP.
+- Dashboard con métricas reales.
+- Flujo CI con GitHub Actions.
+
+### Scripts principales
+
+```bash
+npm install
+npm start
+npm run build
+npm test -- --watch=false
+npm run convert:covers
+```

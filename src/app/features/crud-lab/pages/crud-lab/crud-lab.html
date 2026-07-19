@@ -1,0 +1,47 @@
+<section class="crud-lab">
+  <header>
+    <div>
+      <span class="eyebrow">CRUD Lab</span>
+      <h1>Gestión de datos manuales</h1>
+      <p>Administra Pokémon, variantes, juegos futuros o registros que todavía no estén disponibles en PokéAPI.</p>
+    </div>
+  </header>
+
+  @if (message()) { <div class="notice">{{ message() }}</div> }
+
+  <form class="crud-form" (ngSubmit)="save()">
+    <h2>{{ editingId() ? 'Editar registro' : 'Nuevo registro' }}</h2>
+    <div class="crud-form__grid">
+      <label><span>Nombre</span><input name="name" required [(ngModel)]="draft.name" /></label>
+      <label><span>N.º nacional</span><input name="nationalId" type="number" min="1" required [(ngModel)]="draft.nationalId" /></label>
+      <label><span>Tipo</span><input name="type" [(ngModel)]="draft.type" placeholder="electric" /></label>
+      <label><span>Región</span><input name="region" [(ngModel)]="draft.region" placeholder="Kalos" /></label>
+      <label><span>Juego</span><input name="game" [(ngModel)]="draft.game" placeholder="Legends: Z-A" /></label>
+      <label><span>Imagen</span><input name="imageUrl" [(ngModel)]="draft.imageUrl" placeholder="/assets/images/..." /></label>
+      <label class="crud-form__wide"><span>Notas</span><textarea name="notes" rows="3" [(ngModel)]="draft.notes"></textarea></label>
+    </div>
+    <div class="crud-form__actions">
+      <button class="primary" type="submit">{{ editingId() ? 'Guardar cambios' : 'Crear registro' }}</button>
+      @if (editingId()) { <button type="button" (click)="cancel()">Cancelar</button> }
+    </div>
+  </form>
+
+  <section class="records">
+    <header><div><h2>Registros</h2><small>{{ records().length }} guardados localmente</small></div><input type="search" placeholder="Buscar..." [ngModel]="search()" (ngModelChange)="search.set($event)" /></header>
+    <div class="records__table-wrap">
+      <table>
+        <thead><tr><th>N.º</th><th>Pokémon</th><th>Tipo</th><th>Región</th><th>Juego</th><th>Acciones</th></tr></thead>
+        <tbody>
+          @for (record of filteredRecords(); track record.id) {
+            <tr>
+              <td>#{{ record.nationalId.toString().padStart(4, '0') }}</td>
+              <td><div class="pokemon-cell">@if (record.imageUrl) { <img [src]="record.imageUrl" [alt]="record.name" /> }<div><strong>{{ record.name }}</strong><small>{{ record.notes || 'Sin notas' }}</small></div></div></td>
+              <td>{{ record.type || 'N/D' }}</td><td>{{ record.region || 'N/D' }}</td><td>{{ record.game || 'N/D' }}</td>
+              <td><div class="row-actions"><button type="button" (click)="edit(record)">Editar</button><button type="button" class="danger" (click)="remove(record)">Eliminar</button></div></td>
+            </tr>
+          } @empty { <tr><td colspan="6" class="empty">No hay registros manuales.</td></tr> }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,19 @@
+<nav class="api-tabs" aria-label="APIs disponibles">
+  @for (tab of tabs(); track tab.id) {
+    <button
+      type="button"
+      class="api-tab"
+      [class.api-tab--active]="activeTab() === tab.id"
+      [attr.aria-selected]="activeTab() === tab.id"
+      role="tab"
+      (click)="selectTab(tab.id)"
+    >
+      <span class="api-tab__icon" aria-hidden="true">{{ tab.icon }}</span>
+
+      <span class="api-tab__content">
+        <strong>{{ tab.label }}</strong>
+        <small>{{ tab.description }}</small>
+      </span>
+    </button>
+  }
+</nav>

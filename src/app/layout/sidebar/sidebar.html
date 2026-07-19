@@ -1,0 +1,40 @@
+<aside class="sidebar">
+  <div class="sidebar__section">
+    <span class="sidebar__label">
+      Espacio de trabajo
+    </span>
+
+    <nav
+      class="sidebar__navigation"
+      aria-label="Navegación principal"
+    >
+      @for (item of navigationItems; track item.route) {
+        <a
+          class="sidebar-link"
+          [routerLink]="item.route"
+          routerLinkActive="sidebar-link--active"
+          [routerLinkActiveOptions]="{
+            exact: item.exact ?? false
+          }"
+        >
+          <span
+            class="sidebar-link__icon"
+            aria-hidden="true"
+          >
+            {{ item.icon }}
+          </span>
+
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+  </div>
+
+  <section class="sidebar__project">
+    <span>Versión actual</span>
+    <strong>Angular Studio 2.0</strong>
+    <p>
+      Developer Hub moderno construido con Angular 21.
+    </p>
+  </section>
+</aside>

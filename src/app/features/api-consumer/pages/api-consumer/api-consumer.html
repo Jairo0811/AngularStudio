@@ -1,0 +1,213 @@
+<section class="api-page">
+  <header class="page-header">
+    <div>
+      <span class="page-header__eyebrow">
+        Proyecto final modernizado
+      </span>
+
+      <h1>Consumidor de API</h1>
+
+      <p>
+        Explorador de usuarios internacionales basado en Random User API,
+        reconstruido con HttpClient, Signals, tipado estricto y filtros.
+      </p>
+    </div>
+
+    <button
+      class="reload-button"
+      type="button"
+      (click)="loadUsers()"
+      [disabled]="isLoading()"
+    >
+      {{ isLoading() ? 'Consultando...' : 'Obtener nuevos usuarios' }}
+    </button>
+  </header>
+
+  <section class="statistics">
+    <article>
+      <span>Usuarios recibidos</span>
+      <strong>{{ users().length }}</strong>
+    </article>
+
+    <article>
+      <span>Resultados visibles</span>
+      <strong>{{ filteredUsers().length }}</strong>
+    </article>
+
+    <article>
+      <span>Países representados</span>
+      <strong>{{ countries().length }}</strong>
+    </article>
+  </section>
+
+  <section class="filters-panel">
+    <div class="filter-field filter-field--search">
+      <label for="userSearch">
+        Buscar usuario
+      </label>
+
+      <input
+        id="userSearch"
+        type="search"
+        placeholder="Nombre, correo o ciudad"
+        [value]="searchTerm()"
+        (input)="updateSearchTerm($event)"
+      />
+    </div>
+
+    <div class="filter-field">
+      <label for="countryFilter">
+        País
+      </label>
+
+      <select
+        id="countryFilter"
+        [value]="selectedCountry()"
+        (change)="updateCountry($event)"
+      >
+        <option value="">
+          Todos los países
+        </option>
+
+        @for (country of countries(); track country) {
+          <option [value]="country">
+            {{ country }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <button
+      class="clear-filters-button"
+      type="button"
+      (click)="clearFilters()"
+      [disabled]="!searchTerm() && !selectedCountry()"
+    >
+      Limpiar filtros
+    </button>
+  </section>
+
+  @if (errorMessage()) {
+    <div
+      class="api-alert"
+      role="alert"
+    >
+      <span aria-hidden="true">!</span>
+
+      <div>
+        <strong>Error al consultar la API</strong>
+        <p>{{ errorMessage() }}</p>
+      </div>
+
+      <button
+        type="button"
+        (click)="loadUsers()"
+      >
+        Reintentar
+      </button>
+    </div>
+  }
+
+  @if (isLoading()) {
+    <section
+      class="loading-state"
+      aria-live="polite"
+    >
+      <span class="loading-state__spinner"></span>
+      <h2>Consultando Random User API</h2>
+      <p>Estamos obteniendo treinta perfiles internacionales.</p>
+    </section>
+  } @else if (
+    !errorMessage() &&
+    filteredUsers().length > 0
+  ) {
+    <section class="users-grid">
+      @for (
+        user of filteredUsers();
+        track user.login.uuid
+      ) {
+        <article class="user-card">
+          <div class="user-card__image-container">
+            <img
+              [src]="user.picture.large"
+              [alt]="'Fotografía de ' + getFullName(user)"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            />
+
+            <span class="user-card__nationality">
+              {{ user.nat }}
+            </span>
+          </div>
+
+          <div class="user-card__content">
+            <span class="user-card__country">
+              {{ user.location.country }}
+            </span>
+
+            <h2>{{ getFullName(user) }}</h2>
+
+            <a
+              class="user-card__email"
+              [href]="'mailto:' + user.email"
+            >
+              {{ user.email }}
+            </a>
+
+            <dl class="user-details">
+              <div>
+                <dt>Ciudad</dt>
+                <dd>{{ user.location.city }}</dd>
+              </div>
+
+              <div>
+                <dt>Estado o provincia</dt>
+                <dd>{{ user.location.state }}</dd>
+              </div>
+
+              <div>
+                <dt>Dirección</dt>
+                <dd>
+                  {{ user.location.street.number }}
+                  {{ user.location.street.name }}
+                </dd>
+              </div>
+
+              <div>
+                <dt>Código postal</dt>
+                <dd>{{ user.location.postcode }}</dd>
+              </div>
+
+              <div>
+                <dt>Edad</dt>
+                <dd>{{ user.dob.age }} años</dd>
+              </div>
+
+              <div>
+                <dt>Teléfono</dt>
+                <dd>{{ user.phone }}</dd>
+              </div>
+            </dl>
+          </div>
+        </article>
+      }
+    </section>
+  } @else if (!errorMessage()) {
+    <section class="empty-state">
+      <span aria-hidden="true">⌕</span>
+
+      <h2>No encontramos coincidencias</h2>
+
+      <p>
+        Modifica la búsqueda o elimina los filtros aplicados.
+      </p>
+
+      <button
+        type="button"
+        (click)="clearFilters()"
+      >
+        Mostrar todos
+      </button>
+    </section>
+  }
+</section>

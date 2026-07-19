@@ -1,0 +1,157 @@
+@use '../../styles/explorer-shared';
+
+.flag-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(17rem, 1fr));
+
+  gap: 1rem;
+}
+
+.flag-card {
+  overflow: hidden;
+
+  border: 1px solid #303036;
+  border-radius: 1rem;
+
+  background:
+    linear-gradient(
+      145deg,
+      #1b1b1e,
+      #151517
+    );
+
+  color: #f8fafc;
+
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 3%),
+    0 0.5rem 1.5rem rgb(0 0 0 / 18%);
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+
+  &:hover {
+    transform: translateY(-3px);
+
+    border-color: rgb(244 63 94 / 55%);
+
+    box-shadow:
+      0 0.85rem 2rem rgb(0 0 0 / 28%);
+  }
+
+  &__image {
+    display: grid;
+    place-items: center;
+
+    min-height: 10.5rem;
+    padding: 1rem;
+
+    border-bottom: 1px solid #29292e;
+
+    background-color: #222226;
+
+    background-image:
+      linear-gradient(
+        45deg,
+        #29292e 25%,
+        transparent 25%
+      ),
+      linear-gradient(
+        -45deg,
+        #29292e 25%,
+        transparent 25%
+      ),
+      linear-gradient(
+        45deg,
+        transparent 75%,
+        #29292e 75%
+      ),
+      linear-gradient(
+        -45deg,
+        transparent 75%,
+        #29292e 75%
+      );
+
+    background-size: 1.5rem 1.5rem;
+
+    background-position:
+      0 0,
+      0 0.75rem,
+      0.75rem -0.75rem,
+      -0.75rem 0;
+
+    img {
+      width: 100%;
+      height: 8rem;
+
+      object-fit: contain;
+
+      filter:
+        drop-shadow(
+          0 0.6rem 0.7rem
+          rgb(0 0 0 / 35%)
+        );
+    }
+  }
+
+  &__body {
+    padding: 1rem;
+
+    color: #f8fafc;
+
+    > div:first-child {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    h3 {
+      margin: 0;
+
+      color: #ffffff;
+
+      font-size: 1.1rem;
+      font-weight: 750;
+    }
+
+    span {
+      color: #ff4568;
+
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    dl {
+      display: grid;
+      gap: 0.7rem;
+
+      margin: 1rem 0 0;
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+
+        padding-top: 0.65rem;
+
+        border-top: 1px solid #29292e;
+      }
+    }
+
+    dt {
+      color: #9298a3;
+    }
+
+    dd {
+      margin: 0;
+
+      color: #f8fafc;
+
+      text-align: right;
+      font-weight: 700;
+    }
+  }
+}

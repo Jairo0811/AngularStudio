@@ -1,0 +1,295 @@
+<main class="auth-page">
+  <section class="auth-shell">
+    <aside class="auth-branding">
+      <a
+        class="auth-branding__home"
+        routerLink="/"
+        aria-label="Ir al inicio de Angular Studio"
+      >
+        <img
+          class="auth-branding__logo"
+          src="/images/angular-studio-logo.png"
+          alt="Angular Studio"
+        />
+      </a>
+
+      <div class="auth-branding__content">
+        <span class="auth-branding__eyebrow">
+          ITLA · MESCyT · 2020
+        </span>
+
+        <h1>Desarrolla, crea e innova.</h1>
+
+        <p>
+          Accede al entorno unificado que preserva y moderniza los
+          proyectos realizados durante el Diplomado en Programación Web
+          con Angular.
+        </p>
+      </div>
+
+      <div class="auth-branding__modules">
+        <article>
+          <span>01</span>
+          <strong>Autenticación</strong>
+        </article>
+
+        <article>
+          <span>02</span>
+          <strong>Calculadora</strong>
+        </article>
+
+        <article>
+          <span>03</span>
+          <strong>Consumidor API</strong>
+        </article>
+      </div>
+    </aside>
+
+    <section class="auth-panel">
+      <div class="auth-panel__content">
+        <header class="auth-header">
+          <span class="auth-header__badge">
+            Angular Studio
+          </span>
+
+          <h2>Iniciar sesión</h2>
+
+          <p>
+            Introduce tus credenciales para acceder al panel.
+          </p>
+        </header>
+
+        <form
+          class="auth-form"
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()"
+          novalidate
+        >
+          @if (errorMessage()) {
+            <div
+              class="auth-alert auth-alert--error"
+              role="alert"
+              aria-live="assertive"
+            >
+              <span
+                class="auth-alert__icon"
+                aria-hidden="true"
+              >
+                !
+              </span>
+
+              <p>{{ errorMessage() }}</p>
+            </div>
+          }
+
+          <div class="form-field">
+            <label for="email">
+              Correo electrónico
+            </label>
+
+            <div
+              class="form-control"
+              [class.form-control--invalid]="
+                loginForm.controls.email.invalid &&
+                loginForm.controls.email.touched
+              "
+            >
+              <span
+                class="form-control__icon"
+                aria-hidden="true"
+              >
+                @
+              </span>
+
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                placeholder="nombre@correo.com"
+                autocomplete="email"
+              />
+            </div>
+
+            @if (
+              loginForm.controls.email.hasError('required') &&
+              loginForm.controls.email.touched
+            ) {
+              <small class="form-error">
+                El correo electrónico es obligatorio.
+              </small>
+            }
+
+            @if (
+              loginForm.controls.email.hasError('email') &&
+              loginForm.controls.email.touched
+            ) {
+              <small class="form-error">
+                Introduce una dirección de correo válida.
+              </small>
+            }
+
+            @if (
+              loginForm.controls.email.hasError('maxlength') &&
+              loginForm.controls.email.touched
+            ) {
+              <small class="form-error">
+                El correo no puede superar los 150 caracteres.
+              </small>
+            }
+          </div>
+
+          <div class="form-field">
+            <div class="form-field__header">
+              <label for="password">
+                Contraseña
+              </label>
+
+              <a routerLink="/recuperar-contrasena">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+
+            <div
+              class="form-control"
+              [class.form-control--invalid]="
+                loginForm.controls.password.invalid &&
+                loginForm.controls.password.touched
+              "
+            >
+              <span
+                class="form-control__icon"
+                aria-hidden="true"
+              >
+                ●
+              </span>
+
+              <input
+                id="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Introduce tu contraseña"
+                autocomplete="current-password"
+              />
+
+              <button
+                class="password-toggle"
+                type="button"
+                (click)="togglePasswordVisibility()"
+                [attr.aria-label]="
+                  showPassword()
+                    ? 'Ocultar contraseña'
+                    : 'Mostrar contraseña'
+                "
+              >
+                {{ showPassword() ? 'Ocultar' : 'Mostrar' }}
+              </button>
+            </div>
+
+            @if (
+              loginForm.controls.password.hasError('required') &&
+              loginForm.controls.password.touched
+            ) {
+              <small class="form-error">
+                La contraseña es obligatoria.
+              </small>
+            }
+
+            @if (
+              loginForm.controls.password.hasError('minlength') &&
+              loginForm.controls.password.touched
+            ) {
+              <small class="form-error">
+                La contraseña debe tener al menos 6 caracteres.
+              </small>
+            }
+
+            @if (
+              loginForm.controls.password.hasError('maxlength') &&
+              loginForm.controls.password.touched
+            ) {
+              <small class="form-error">
+                La contraseña no puede superar los 100 caracteres.
+              </small>
+            }
+          </div>
+
+          <label class="remember-option">
+            <input
+              type="checkbox"
+              formControlName="rememberMe"
+            />
+
+            <span>
+              Recordar mi sesión
+            </span>
+          </label>
+
+          <button
+            class="submit-button"
+            type="submit"
+            [disabled]="isSubmitting() || isGoogleSubmitting()"
+          >
+            @if (isSubmitting()) {
+              <span
+                class="submit-button__loader"
+                aria-hidden="true"
+              ></span>
+
+              Iniciando sesión...
+            } @else {
+              Iniciar sesión
+            }
+          </button>
+
+          <div class="separator">
+            <span>
+              o continúa con
+            </span>
+          </div>
+
+          <button
+            class="google-button"
+            type="button"
+            (click)="loginWithGoogle()"
+            [disabled]="isGoogleSubmitting() || isSubmitting()"
+          >
+            @if (isGoogleSubmitting()) {
+              <span
+                class="submit-button__loader"
+                aria-hidden="true"
+              ></span>
+
+              Conectando con Google...
+            } @else {
+              <span
+                class="google-button__icon"
+                aria-hidden="true"
+              >
+                G
+              </span>
+
+              Continuar con Google
+            }
+          </button>
+        </form>
+
+        <footer class="auth-footer">
+          <p>
+            ¿Aún no tienes una cuenta?
+
+            <a routerLink="/registro">
+              Crear cuenta
+            </a>
+          </p>
+
+          <a
+            class="auth-footer__back"
+            routerLink="/"
+          >
+            ← Volver al inicio
+          </a>
+        </footer>
+      </div>
+    </section>
+  </section>
+</main>

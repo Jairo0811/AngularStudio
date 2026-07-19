@@ -1,0 +1,132 @@
+:host {
+  display: block;
+}
+
+.api-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.api-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+
+  min-height: 5rem;
+  padding: 1rem;
+
+  border: 1px solid #303036;
+  border-radius: 1rem;
+
+  background:
+    linear-gradient(
+      145deg,
+      #1b1b1e,
+      #151517
+    );
+
+  color: #f8fafc;
+
+  text-align: left;
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 3%);
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+
+  &:hover {
+    transform: translateY(-2px);
+
+    border-color: rgb(244 63 94 / 70%);
+
+    box-shadow:
+      0 0.75rem 2rem rgb(0 0 0 / 24%);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgb(244 63 94 / 28%);
+    outline-offset: 2px;
+  }
+
+  &--active {
+    border-color: #ef334f;
+
+    background:
+      radial-gradient(
+        circle at top right,
+        rgb(244 63 94 / 20%),
+        transparent 45%
+      ),
+      linear-gradient(
+        135deg,
+        #35151c,
+        #1c1114
+      );
+
+    box-shadow:
+      inset 0 0 0 1px rgb(244 63 94 / 8%),
+      0 0.75rem 2rem rgb(0 0 0 / 28%);
+
+    .api-tab__icon {
+      border-color: rgb(255 80 110 / 24%);
+      background: rgb(244 63 94 / 18%);
+      color: #ff5270;
+    }
+
+    strong {
+      color: #ffffff;
+    }
+
+    small {
+      color: #a9adb7;
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+
+    flex: 0 0 2.75rem;
+
+    width: 2.75rem;
+    height: 2.75rem;
+
+    border: 1px solid rgb(244 63 94 / 18%);
+    border-radius: 0.85rem;
+
+    background: rgb(244 63 94 / 10%);
+    color: #ff4568;
+
+    font-size: 1.3rem;
+  }
+
+  &__content {
+    display: grid;
+    gap: 0.25rem;
+
+    strong {
+      color: #f8fafc;
+
+      font-size: 0.95rem;
+      font-weight: 750;
+    }
+  }
+
+  small {
+    color: #8f96a3;
+
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 900px) {
+  .api-tabs {
+    grid-template-columns: 1fr;
+  }
+}
