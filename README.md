@@ -1,17 +1,17 @@
-
 <div align="center">
 
-<img src="public/images/angular-studio-logo.png" alt="Angular Studio Logo" width="180" />
+<img src="public/images/angular-studio-logo.png" alt="Logo de Angular Studio" width="180" />
 
 # Angular Studio
 
 ### Development Workspace · Academic Edition
 
-Aplicación web moderna desarrollada con **Angular 21**, creada originalmente durante el **Diplomado en Programación Web con Angular – MESCyT** y evolucionada como proyecto profesional de portafolio.
+Aplicación web moderna construida con **Angular 21**, nacida como proyecto académico y evolucionada hasta convertirse en una plataforma técnica de portafolio.
 
 [![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)](https://angular.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Firebase](https://img.shields.io/badge/Firebase-Hosting%20%26%20Auth-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Firebase](https://img.shields.io/badge/Firebase-Authentication%20%26%20Hosting-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Vitest](https://img.shields.io/badge/Tests-Vitest-6E9F18?logo=vitest&logoColor=white)](https://vitest.dev/)
 [![Status](https://img.shields.io/badge/Estado-Estable-success)](#estado-del-proyecto)
 [![License](https://img.shields.io/badge/Licencia-Académica-blue)](#licencia)
 
@@ -21,9 +21,19 @@ Aplicación web moderna desarrollada con **Angular 21**, creada originalmente du
 
 ## Descripción
 
-**Angular Studio** es una plataforma de desarrollo, aprendizaje y demostración técnica construida con una arquitectura modular basada en componentes standalone.
+**Angular Studio** es una plataforma de aprendizaje, experimentación y demostración técnica desarrollada con una arquitectura basada en componentes standalone.
 
-El proyecto integra autenticación, consumo de APIs REST, herramientas para desarrolladores, gestión CRUD, preferencias de usuario y una Pokédex avanzada. Su propósito actual es demostrar competencias prácticas en ingeniería de software, desarrollo frontend moderno y despliegue en la nube.
+El proyecto reúne autenticación, consumo de APIs REST, herramientas para desarrolladores, gestión CRUD, preferencias de usuario, calculadora, panel administrativo y una experiencia avanzada inspirada en el universo Pokémon.
+
+Su objetivo es demostrar competencias prácticas en:
+
+- Desarrollo frontend moderno con Angular.
+- Arquitectura modular y separación de responsabilidades.
+- Integración con servicios externos.
+- Gestión de estado con Signals y RxJS.
+- Diseño responsivo.
+- Autenticación con Firebase.
+- Construcción y preparación para producción.
 
 ## Demo
 
@@ -31,45 +41,76 @@ La aplicación está preparada para publicarse mediante Firebase Hosting:
 
 **https://angular-studio-2b6c3.web.app**
 
-> El enlace estará disponible después de completar el despliegue de Firebase Hosting.
+> El despliegue público permanece pendiente. El proyecto compila correctamente y genera la salida de producción en `dist/AngularStudio/browser`.
 
 ## Tecnologías
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=angular,typescript,html,css,scss,firebase,nodejs,git,github,vscode" alt="Tecnologías utilizadas" />
+  <img src="https://skillicons.dev/icons?i=angular,typescript,html,css,scss,firebase,nodejs,git,github,vscode" alt="Tecnologías utilizadas en Angular Studio" />
 </p>
 
-- Angular 21
-- TypeScript
-- Angular Signals
-- RxJS
-- SCSS
-- Firebase Authentication
-- Firebase Hosting
-- REST APIs
-- PokéAPI
-- Node.js
-- Sharp
-- Git y GitHub
+- Angular 21.
+- TypeScript 5.9.
+- Angular Signals.
+- RxJS 7.8.
+- Reactive Forms.
+- SCSS.
+- Firebase Authentication.
+- Firebase Hosting.
+- REST APIs.
+- PokéAPI.
+- Vitest.
+- Node.js.
+- Sharp.
+- Git y GitHub.
 
 ## Funcionalidades principales
 
+### Experiencia general
+
+- Página de inicio responsiva.
+- Navegación adaptable para escritorio, tabletas y dispositivos móviles.
 - Dashboard con resumen de actividad y accesos rápidos.
-- Autenticación mediante Firebase.
-- Registro, inicio de sesión y recuperación de contraseña.
-- API Playground para consumir servicios REST.
-- Pokédex avanzada con regiones, formas, evoluciones, movimientos y encuentros.
-- Gestión de favoritos, comparación y creación de equipos Pokémon.
-- CRUD Lab para administrar registros.
-- Herramientas para JSON, Base64, UUID y contraseñas seguras.
 - Perfil de usuario y configuración de preferencias.
-- Diseño responsivo para escritorio, tabletas y dispositivos móviles.
-- Página académica con certificado y datos del proyecto.
-- Lazy loading y protección de rutas mediante guards.
+- Soporte para temas y personalización visual.
+- Lazy loading de funcionalidades.
+- Protección de rutas mediante guards.
+
+### Autenticación
+
+- Registro de usuarios.
+- Inicio de sesión.
+- Recuperación de contraseña.
+- Integración con Firebase Authentication.
+
+### API Playground
+
+- Exploración y consumo de APIs REST.
+- Pokémon Explorer con información detallada.
+- Regiones, formas, evoluciones, movimientos y encuentros.
+- Gestión de favoritos.
+- Comparación de Pokémon.
+- Creación de equipos.
+
+### Herramientas y laboratorios
+
+- CRUD Lab con persistencia local.
+- Calculadora.
+- Formateador y validador JSON.
+- Conversión Base64.
+- Generador de UUID.
+- Generador de contraseñas seguras.
+- Conversión automatizada de imágenes JPG y PNG a WebP.
+
+### Contexto académico
+
+- Página `Acerca de` con información del diplomado.
+- Presentación del certificado académico.
+- Datos históricos del proyecto original.
 
 ## Arquitectura
 
-El proyecto utiliza una organización modular orientada a mantenibilidad y escalabilidad:
+El proyecto utiliza una estructura modular orientada a mantenibilidad, escalabilidad y separación de responsabilidades:
 
 ```text
 src/app/
@@ -95,24 +136,25 @@ src/app/
 
 ### Principios aplicados
 
-- Standalone Components
-- Lazy Loading
-- Route Guards
-- Angular Signals
-- Separación de responsabilidades
-- Componentes reutilizables
-- Servicios especializados
-- Diseño responsivo
-- Persistencia local
-- Clean Code
-- DRY y KISS
+- Standalone Components.
+- Lazy Loading.
+- Route Guards.
+- Angular Signals.
+- Servicios especializados.
+- Componentes reutilizables.
+- Separación de responsabilidades.
+- Persistencia local.
+- Diseño responsivo.
+- Clean Code.
+- DRY.
+- KISS.
 
 ## Requisitos
 
-- Node.js 22 LTS recomendado
-- npm 10 o superior
-- Angular CLI 21
-- Cuenta y proyecto configurado en Firebase
+- Node.js 22 LTS.
+- npm 10 o superior.
+- Angular CLI 21.
+- Cuenta de Firebase para autenticación y despliegue.
 
 ## Instalación
 
@@ -120,78 +162,50 @@ src/app/
 git clone https://github.com/Jairo0811/AngularStudio.git
 cd AngularStudio
 npm install
-ng serve
+npm start
 ```
 
-Abre en el navegador:
+Abre la aplicación en:
 
 ```text
 http://localhost:4200
 ```
 
+## Scripts disponibles
+
+| Comando | Descripción |
+|---|---|
+| `npm start` | Inicia el servidor de desarrollo. |
+| `npm run build` | Genera el build optimizado de producción. |
+| `npm run watch` | Compila en modo desarrollo y observa cambios. |
+| `npm test` | Ejecuta las pruebas con Vitest. |
+| `npm run convert:covers` | Convierte las carátulas compatibles a WebP. |
+
+Los scripts `prestart` y `prebuild` ejecutan automáticamente la conversión de carátulas antes de iniciar o compilar el proyecto.
+
 ## Compilación para producción
->>>>>>> 627341e5aa8d11af091633812f04fcc461369aa0
 
 ```bash
-ng build
-```
-
-<<<<<<< HEAD
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-## Angular Studio 2.0
-
-La versión 2.0 incorpora:
-
-- Pokédex avanzada con comparador, favoritos, filtros y equipos.
-- CRUD Lab con persistencia local.
-- Developer Tools: JSON Formatter, Base64, UUID y generador de contraseñas.
-- Perfil de usuario y configuración de tema.
-- Conversión automática de carátulas JPG/PNG a WebP.
-- Dashboard con métricas reales.
-- Flujo CI con GitHub Actions.
-
-### Scripts principales
-
-```bash
-npm install
-npm start
 npm run build
-npm test -- --watch=false
-npm run convert:covers
 ```
-=======
-La salida de producción se genera en:
+
+La salida optimizada se genera en:
 
 ```text
 dist/AngularStudio/browser
 ```
 
+## Pruebas
+
+```bash
+npm test
+```
+
+El proyecto utiliza **Vitest** como framework de pruebas.
+
 ## Despliegue en Firebase Hosting
 
-El archivo `firebase.json` debe apuntar al build de Angular:
+El archivo `firebase.json` debe apuntar a la salida generada por Angular:
 
 ```json
 {
@@ -212,10 +226,11 @@ El archivo `firebase.json` debe apuntar al build de Angular:
 }
 ```
 
-Compila y publica:
+Comandos de despliegue:
 
 ```bash
-ng build
+npm run build
+firebase use angular-studio-2b6c3
 firebase deploy --only hosting
 ```
 
@@ -233,7 +248,22 @@ firebase deploy --only hosting
 | Entidades vinculadas | MESCyT y República Digital |
 | Fecha del certificado | 8 de septiembre de 2020 |
 
-Angular Studio comenzó como proyecto académico y fue reconstruido y ampliado hasta convertirse en una aplicación moderna de portafolio.
+Angular Studio comenzó como un proyecto académico y posteriormente fue reconstruido con Angular moderno, componentes standalone, Firebase y una arquitectura orientada a portafolio profesional.
+
+## Evolución de Angular Studio 2.0
+
+La versión 2.0 incorpora:
+
+- Migración a Angular 21.
+- Arquitectura standalone.
+- Pokédex avanzada.
+- Comparador, favoritos, filtros y equipos Pokémon.
+- CRUD Lab con persistencia local.
+- Herramientas para desarrolladores.
+- Perfil de usuario y configuración de tema.
+- Optimización y conversión automática de imágenes.
+- Dashboard con métricas y accesos rápidos.
+- Preparación para Firebase Hosting.
 
 ## Estado del proyecto
 
@@ -241,15 +271,26 @@ Angular Studio comenzó como proyecto académico y fue reconstruido y ampliado h
 **Estado:** Estable  
 **Edición:** Academic Edition
 
-El proyecto se encuentra funcional y preparado para despliegue en Firebase Hosting.
+El proyecto compila correctamente para producción. El despliegue público en Firebase Hosting permanece pendiente debido a una incidencia temporal durante la carga de archivos.
 
-## Próximas mejoras
+## Roadmap
 
-- Optimización adicional de estilos y presupuestos de compilación.
-- Pruebas unitarias y de integración.
-- Automatización de CI/CD con GitHub Actions.
-- Mejoras de accesibilidad.
-- Métricas y monitoreo del frontend.
+- [x] Arquitectura standalone.
+- [x] Lazy loading.
+- [x] Routing moderno.
+- [x] Formularios reactivos.
+- [x] Autenticación con Firebase.
+- [x] Consumo de APIs REST.
+- [x] Signals y RxJS.
+- [x] Componentes reutilizables.
+- [x] Diseño responsivo.
+- [x] Build de producción.
+- [ ] Incrementar la cobertura de pruebas.
+- [ ] Optimizar los presupuestos de estilos SCSS.
+- [ ] Mejorar accesibilidad y navegación por teclado.
+- [ ] Automatizar CI/CD con GitHub Actions.
+- [ ] Completar el despliegue público.
+- [ ] Incorporar métricas y monitoreo del frontend.
 
 ## Autor
 
@@ -257,7 +298,7 @@ El proyecto se encuentra funcional y preparado para despliegue en Firebase Hosti
 Tecnólogo en Desarrollo de Software · Estudiante de Ingeniería de Software
 
 - GitHub: [@Jairo0811](https://github.com/Jairo0811)
-- Portafolio académico y profesional
+- Proyecto académico evolucionado para portafolio profesional.
 
 ## Licencia
 
@@ -271,4 +312,3 @@ Proyecto desarrollado con fines académicos, educativos y de portafolio profesio
 Del aprendizaje académico a una aplicación profesional.
 
 </div>
->>>>>>> 627341e5aa8d11af091633812f04fcc461369aa0
