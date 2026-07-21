@@ -34,6 +34,11 @@ export class Sidebar {
       route: '/calculadora',
     },
     {
+      label: 'Calendario',
+      icon: '▦',
+      route: '/calendario',
+    },
+    {
       label: 'API Playground',
       icon: '⌘',
       route: '/api',
