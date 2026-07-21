@@ -71,8 +71,16 @@ export const routes: Routes = [
           ),
         title: 'Calculadora | Angular Studio',
       },
-
-      // NUEVO API PLAYGROUND
+      {
+        path: 'calendario',
+        loadComponent: () =>
+          import(
+            './features/calendar/pages/calendar/calendar'
+          ).then(
+            (component) => component.Calendar,
+          ),
+        title: 'Calendario | Angular Studio',
+      },
       {
         path: 'api',
         loadChildren: () =>
@@ -83,7 +91,6 @@ export const routes: Routes = [
           ),
         title: 'API Playground | Angular Studio',
       },
-
       {
         path: 'crud-lab',
         loadComponent: () =>
