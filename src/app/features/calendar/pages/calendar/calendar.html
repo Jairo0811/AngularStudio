@@ -1,0 +1,94 @@
+<section class="calendar-page">
+  <header class="calendar-page__header">
+    <div>
+      <span class="calendar-page__eyebrow">Aplicaciones</span>
+      <h1>Calendario</h1>
+      <p>Organiza eventos y actividades desde una vista mensual.</p>
+    </div>
+
+    <div class="calendar-toolbar" aria-label="Navegación del calendario">
+      <button type="button" (click)="previousMonth()" aria-label="Mes anterior">‹</button>
+      <button type="button" class="calendar-toolbar__today" (click)="goToToday()">Hoy</button>
+      <button type="button" (click)="nextMonth()" aria-label="Mes siguiente">›</button>
+    </div>
+  </header>
+
+  <div class="calendar-layout">
+    <section class="calendar-card" aria-label="Calendario mensual">
+      <div class="calendar-card__title">
+        {{ visibleMonth() | date: 'MMMM y' : undefined : 'es' }}
+      </div>
+
+      <div class="calendar-grid calendar-grid--head">
+        @for (weekDay of weekDays; track weekDay) {
+          <span>{{ weekDay }}</span>
+        }
+      </div>
+
+      <div class="calendar-grid">
+        @for (day of days(); track day.isoDate) {
+          <button
+            type="button"
+            class="calendar-day"
+            [class.calendar-day--outside]="!day.isCurrentMonth"
+            [class.calendar-day--today]="day.isToday"
+            [class.calendar-day--selected]="day.isoDate === selectedDate()"
+            (click)="selectDay(day)"
+          >
+            <span class="calendar-day__number">{{ day.date.getDate() }}</span>
+
+            <span class="calendar-day__events" aria-hidden="true">
+              @for (event of eventsFor(day.isoDate).slice(0, 3); track event.id) {
+                <span class="calendar-day__event" [style.background]="event.color"></span>
+              }
+            </span>
+          </button>
+        }
+      </div>
+    </section>
+
+    <aside class="event-panel">
+      <header class="event-panel__header">
+        <span>Día seleccionado</span>
+        <strong>{{ selectedDate() | date: 'EEEE, d MMMM y' : undefined : 'es' }}</strong>
+      </header>
+
+      <form class="event-form" [formGroup]="eventForm" (ngSubmit)="addEvent()">
+        <label>
+          Título
+          <input type="text" formControlName="title" placeholder="Ej. Clase de Angular" />
+        </label>
+
+        <label>
+          Descripción
+          <textarea rows="3" formControlName="description" placeholder="Detalles opcionales"></textarea>
+        </label>
+
+        <label class="event-form__color">
+          Color
+          <input type="color" formControlName="color" />
+        </label>
+
+        <button type="submit">Agregar evento</button>
+      </form>
+
+      <div class="event-list">
+        @if (selectedEvents().length === 0) {
+          <p class="event-list__empty">No hay eventos para este día.</p>
+        } @else {
+          @for (event of selectedEvents(); track event.id) {
+            <article class="event-item" [style.border-left-color]="event.color">
+              <div>
+                <strong>{{ event.title }}</strong>
+                @if (event.description) {
+                  <p>{{ event.description }}</p>
+                }
+              </div>
+              <button type="button" (click)="removeEvent(event.id)" aria-label="Eliminar evento">×</button>
+            </article>
+          }
+        }
+      </div>
+    </aside>
+  </div>
+</section>
