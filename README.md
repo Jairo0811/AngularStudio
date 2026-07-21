@@ -23,7 +23,7 @@ Aplicación web moderna construida con **Angular 21**, nacida como proyecto acad
 
 **Angular Studio** es una plataforma de aprendizaje, experimentación y demostración técnica desarrollada con una arquitectura basada en componentes standalone.
 
-El proyecto reúne autenticación, consumo de APIs REST, herramientas para desarrolladores, gestión CRUD, preferencias de usuario, calculadora, panel administrativo y una experiencia avanzada inspirada en el universo Pokémon.
+El proyecto reúne autenticación, consumo de APIs REST, herramientas para desarrolladores, gestión CRUD, preferencias de usuario, calculadora, calendario, panel administrativo y una experiencia avanzada inspirada en el universo Pokémon.
 
 Su objetivo es demostrar competencias prácticas en:
 
@@ -31,6 +31,8 @@ Su objetivo es demostrar competencias prácticas en:
 - Arquitectura modular y separación de responsabilidades.
 - Integración con servicios externos.
 - Gestión de estado con Signals y RxJS.
+- Formularios reactivos.
+- Persistencia local.
 - Diseño responsivo.
 - Autenticación con Firebase.
 - Construcción y preparación para producción.
@@ -96,6 +98,10 @@ La aplicación está preparada para publicarse mediante Firebase Hosting:
 
 - CRUD Lab con persistencia local.
 - Calculadora.
+- Calendario mensual interactivo.
+- Creación y eliminación de eventos.
+- Selección de fechas y navegación entre meses.
+- Persistencia de eventos mediante `localStorage`.
 - Formateador y validador JSON.
 - Conversión Base64.
 - Generador de UUID.
@@ -107,6 +113,31 @@ La aplicación está preparada para publicarse mediante Firebase Hosting:
 - Página `Acerca de` con información del diplomado.
 - Presentación del certificado académico.
 - Datos históricos del proyecto original.
+- Recuperación progresiva de ejercicios vistos durante el diplomado.
+
+## Módulo Calendario
+
+El calendario es uno de los ejercicios recuperados del diplomado y modernizados con Angular 21.
+
+Incluye:
+
+- Vista mensual de 42 días.
+- Navegación al mes anterior y siguiente.
+- Acción rápida para volver al día actual.
+- Resaltado del día actual.
+- Selección de fechas.
+- Creación de eventos con título, descripción y color.
+- Eliminación de eventos.
+- Indicadores visuales dentro de cada fecha.
+- Persistencia local de datos.
+- Diseño responsivo.
+- Implementación con Angular Signals y Reactive Forms.
+
+Ruta protegida:
+
+```text
+/calendario
+```
 
 ## Arquitectura
 
@@ -123,6 +154,7 @@ src/app/
 │   ├── api-playground/
 │   ├── auth/
 │   ├── calculator/
+│   ├── calendar/
 │   ├── crud-lab/
 │   ├── dashboard/
 │   ├── developer-tools/
@@ -132,6 +164,21 @@ src/app/
 ├── layout/
 ├── shared/
 └── app.routes.ts
+```
+
+La estructura interna del calendario es:
+
+```text
+src/app/features/calendar/
+├── models/
+│   └── calendar-event.model.ts
+├── services/
+│   └── calendar.service.ts
+└── pages/
+    └── calendar/
+        ├── calendar.ts
+        ├── calendar.html
+        └── calendar.scss
 ```
 
 ### Principios aplicados
@@ -259,6 +306,7 @@ La versión 2.0 incorpora:
 - Pokédex avanzada.
 - Comparador, favoritos, filtros y equipos Pokémon.
 - CRUD Lab con persistencia local.
+- Calendario mensual con eventos persistentes.
 - Herramientas para desarrolladores.
 - Perfil de usuario y configuración de tema.
 - Optimización y conversión automática de imágenes.
@@ -285,6 +333,9 @@ El proyecto compila correctamente para producción. El despliegue público en Fi
 - [x] Componentes reutilizables.
 - [x] Diseño responsivo.
 - [x] Build de producción.
+- [x] Calendario con eventos y persistencia local.
+- [ ] Notepad.
+- [ ] To-Do List.
 - [ ] Incrementar la cobertura de pruebas.
 - [ ] Optimizar los presupuestos de estilos SCSS.
 - [ ] Mejorar accesibilidad y navegación por teclado.
